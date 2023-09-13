@@ -1,0 +1,46 @@
+.comment-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .comments {
+    margin-top: 10px;
+  }
+  
+  .comment {
+    margin-bottom: 10px;
+  }
+  
+  .username {
+    font-weight: bold;
+  }
+  
+  .comment-text {
+    margin-left: 5px;
+  }
+  
+  .comment-form {
+    margin-top: 20px;
+  }
+  
+  .comment-form input,
+  .comment-form textarea,
+  .comment-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .comment-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .comment-form button:hover {
+    background-color: #0056b3;
+  }
+  

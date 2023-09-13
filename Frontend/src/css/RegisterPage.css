@@ -1,0 +1,19 @@
+
+.registertheme-color {
+  background-color: #fbfbfb; 
+}
+
+@media (max-width: 992px) {
+  .flex-responsive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+  }
+}
+@media (max-width: 768px) {
+  .register-page-image {
+    display: none;
+  }
+}

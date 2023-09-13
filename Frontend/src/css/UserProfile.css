@@ -1,0 +1,32 @@
+
+.registertheme-color {
+    background-color: #fbfbfb; 
+  }
+
+  @media (max-width: 992px) {
+    .flex-responsive {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    
+    }
+  }
+  @media (max-width: 768px) {
+    .register-page-image {
+      display: none;
+    }
+  }
+  
+  .thumbnail-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  
+  .thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }

@@ -1,0 +1,39 @@
+
+.login-theme-color {
+  background-color: #514ea1;
+}
+
+
+.full-width-div {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
+.max-height{
+  height: 100vh;
+}
+
+.font{
+  font-family: 'Work Sans', sans-serif;
+}
+
+@media (max-width: 768px) {
+.login-page-image {
+  display: none;
+}
+}
+
+@media (max-width: 992px) {
+  .flex-responsive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+  }
+}
+
+.float-right{
+  float:right;
+}

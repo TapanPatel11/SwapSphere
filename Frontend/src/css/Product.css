@@ -1,0 +1,6 @@
+.selected-image {
+    width: 400px; 
+    height: 400px; 
+    object-fit: contain; /* To ensure the image fills the container without distortion */
+  }
+  
