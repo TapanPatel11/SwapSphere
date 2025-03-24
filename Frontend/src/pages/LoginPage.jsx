@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../css/LoginPage.css'
-import  LoginImage from '../../images/rakshit images/ezgif.com-crop (1).gif'
+import  LoginImage from '../images/landingPageImages/ezgif.com-crop (1).gif'
 import axios from 'axios'; 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

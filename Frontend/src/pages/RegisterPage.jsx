@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import RegisterImage from '../../images/rakshit images/Handimation.gif'
+import RegisterImage from '../images/landingPageImages/Handimation.gif'
 import '../css/RegisterPage.css'
 import axios from 'axios';
 import { useState } from 'react';

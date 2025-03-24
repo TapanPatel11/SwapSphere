@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
-import "../UserProfile/UserProfile.css";
+import "../css/UserProfile.css";
 const UserProfile = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [profilePicture, setProfilePicture] = useState("");

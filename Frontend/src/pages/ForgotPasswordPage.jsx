@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import ForgotPassword from '../../images/rakshit images/forgotpasword.gif'
+import ForgotPassword from '../images/landingPageImages/forgotpasword.gif'
 import '../css/ForgotPasswordPage.css';
 import axios from 'axios'; 
 import { useState } from 'react';
