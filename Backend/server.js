@@ -6,16 +6,40 @@ const specs = require("./swagger");
 const swaggerUi = require("swagger-ui-express");
 const AWS = require("aws-sdk");
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
 
-mongoose.connect(
-  "mongodb+srv://tapanpatel:tapanpatel@mongocluster.2v9b1cl.mongodb.net/csci5709project",
-  { useNewUrlParser: true }
-);
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const vaultName = process.env.KV_NAME;
+const url = `https://${vaultName}.vault.azure.net`;
+
+const credential = new DefaultAzureCredential();
+const client = new SecretClient(url, credential);
+
+
+async function getSecret(secretName) {
+  try {
+      const secret = await client.getSecret(secretName);
+      return secret.value;
+  } catch (error) {
+      console.error("Error fetching secret:", error);
+  }
+}
+
+// Fetch the MongoDB connection string and connect to MongoDB
+(async () => {
+  const mongoUri = await getSecret("swapsphere-mongodb-uri"); 
+  if (!mongoUri) {
+    console.error("Error: MongoDB URI is missing!");
+    process.exit(1); // Exit if the secret is not found
+  }
+
+  mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("Connected to database"))
+    .catch((err) => {
+      console.error("Database connection error:", err);
+      process.exit(1);
+    });
+})();
 const cors = require("cors");
 
 // mongoose.connect(process.env.DBURL, { useNewUrlParser: true });
