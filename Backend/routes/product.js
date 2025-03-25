@@ -1,4 +1,5 @@
 // Import necessary modules
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -8,14 +9,13 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const product = require("../models/product");
 const user = require("../models/user");
 const wishlist = require("../models/wishlist");
-const { getSecretValue } = require('../server'); // Import getSecretValue from server.js
 module.exports = router;
 
 // Function to get secrets from Azure Key Vault
 async function getAzureSecrets() {
-  const storageConnectionString = await getSecretValue("AZURE-STORAGE-CONNECTION-STRING");
-  const containerName = await getSecretValue("AZURE-CONTAINER-NAME");
-  const storageURL = await getSecretValue("AZURE-STORAGE-URL");
+  const storageConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  const containerName = process.env.AZURE_CONTAINER_NAME;
+  const storageURL = process.env.AZURE_STORAGE_URL;
 
 
   return { storageConnectionString, containerName };

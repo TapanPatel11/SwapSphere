@@ -13,8 +13,6 @@ RUN npm install
 # Step 5: Copy the rest of the application code into the container
 COPY . .
 
-
-
 # Step 6: Expose the port your application will run on
 EXPOSE 8080
 
