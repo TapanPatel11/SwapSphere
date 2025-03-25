@@ -2,9 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const specs = require('./swagger');
+const specs = require('swagger');
 const swaggerUi = require('swagger-ui-express');
-// mongoose.connect('mongodb+srv://tapanpatel:tapanpatel@mongocluster.2v9b1cl.mongodb.net/csci5709', { useNewUrlParser: true });
 
 mongoose.connect(process.env.DBURL, { useNewUrlParser: true });
 const db = mongoose.connection;
