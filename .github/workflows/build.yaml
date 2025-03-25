@@ -2,8 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "cicd" ]
-
+    branches:
+      - main
+      - 'feature/**'
 jobs:
   build:
     name: 'Build and Push to ACR'
