@@ -1,0 +1,38 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+jobs:
+  build:
+    name: 'Build and Push to ACR'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}  
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push Frontend
+        run: |
+          docker build -t frontend ./Frontend/
+          docker tag frontend ${{ secrets.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}
+          docker tag frontend ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
+
+      - name: Build and Push Backend
+        run: |
+          docker build -t backend ./Backend/
+          docker tag backend ${{ secrets.ACR_LOGIN_SERVER }}/backend:${{ github.sha }}
+          docker tag backend ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/backend:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
