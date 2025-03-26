@@ -13,24 +13,49 @@ spec:
       labels:
         app: backend
     spec:
+      serviceAccountName: "workload-identity-sa"
       containers:
       - name: backend
         image: swapsphere.azurecr.io/backend:latest
         ports:
         - containerPort: 8080
-        volumeMounts:
-          - mountPath: /mnt/secrets  # Mount the volume where secrets will be available
-            name: secrets-store
-            readOnly: true
+        env:
+        - name: MONGODB_URL
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: mongodburl
 
-      imagePullSecrets:
-        - name: acr-secret
+        - name: AZURE_STORAGE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: azconnectionstring
+
+        - name: AZURE_CONTAINER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: containername
+
+        - name: AZURE_STORAGE_URL
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: azstorageurl
+        volumeMounts:
+            - mountPath: /mnt/secrets-store 
+              name: secrets-store
+              readOnly: true
       volumes:
         - name: secrets-store
           csi:
             driver: secrets-store.csi.k8s.io
+            readOnly: true
             volumeAttributes:
               secretProviderClass: "azure-keyvault-secrets"
+      imagePullSecrets:
+        - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
