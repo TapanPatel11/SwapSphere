@@ -11,14 +11,27 @@ const user = require("../models/user");
 const wishlist = require("../models/wishlist");
 module.exports = router;
 
-// Function to get secrets from Azure Key Vault
+// Import fs to read secrets from files
+const fs = require("fs");
+
+// Function to get secrets from mounted files
 async function getAzureSecrets() {
-  const storageConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
-  const containerName = process.env.AZURE_CONTAINER_NAME;
-  const storageURL = process.env.AZURE_STORAGE_URL;
+  const storageConnectionStringPath = "/mnt/secrets/AZURE-STORAGE-CONNECTION-STRING";
+  const containerNamePath = "/mnt/secrets/CONTAINER-NAME";
+  const storageURLPath = "/mnt/secrets/AZURE-STORAGE-URL";
 
+  let storageConnectionString, containerName, storageURL;
 
-  return { storageConnectionString, containerName };
+  try {
+    storageConnectionString = fs.readFileSync(storageConnectionStringPath, 'utf8').trim();
+    containerName = fs.readFileSync(containerNamePath, 'utf8').trim();
+    storageURL = fs.readFileSync(storageURLPath, 'utf8').trim();
+  } catch (error) {
+    console.error(`Error reading Azure secrets: ${error}`);
+    process.exit(1); // Exit if the secrets cannot be read
+  }
+
+  return { storageConnectionString, containerName, storageURL };
 }
 
 // Configure multer to handle file uploads
@@ -43,7 +56,7 @@ router.get("/product/getAll", async (req, res) => {
 
 router.post("/add", upload.array("fileUpload"), async (req, res) => {
   try {
-    const { storageConnectionString, containerName } = await getAzureSecrets(); // Fetch the secrets from Azure Key Vault
+    const { storageConnectionString, containerName, storageURL } = await getAzureSecrets(); // Fetch the secrets from mounted files
     const blobServiceClient = BlobServiceClient.fromConnectionString(storageConnectionString);
 
     // Create a container reference
@@ -150,7 +163,7 @@ router.put("/product/update/:productID", upload.array("fileUpload"), async (req,
   try {
     const productID = req.params.productID;
 
-    const { storageConnectionString, containerName } = await getAzureSecrets(); // Fetch the secrets from Azure Key Vault
+    const { storageConnectionString, containerName, storageURL } = await getAzureSecrets(); // Fetch the secrets from mounted files
     const blobServiceClient = BlobServiceClient.fromConnectionString(storageConnectionString);
 
     // Create a container reference

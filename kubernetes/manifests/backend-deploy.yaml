@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: swapsphere
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: swapsphere.azurecr.io/backend:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - name: secrets-store
+            mountPath: /mnt/secrets  # Mount the volume where secrets will be available
+            readOnly: true
+        env:
+          - name: MONGODB_URL
+            valueFrom:
+              secretKeyRef:
+                name: /mnt/secrets/swapsphere-mongodb-uri  # Path to the file
+          - name: AZURE_STORAGE_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: /mnt/secrets/AZURE-STORAGE-CONNECTION-STRING  # Path to the file
+          - name: AZURE_CONTAINER_NAME
+            valueFrom:
+              secretKeyRef:
+                name: /mnt/secrets/CONTAINER-NAME  # Path to the file
+          - name: AZURE_STORAGE_URL
+            valueFrom:
+              secretKeyRef:
+                name: /mnt/secrets/AZURE-STORAGE-URL  # Path to the file
+      imagePullSecrets:
+        - name: acr-secret
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            volumeAttributes:
+              secretProviderClass: "azure-keyvault-secrets"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: swapsphere
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
