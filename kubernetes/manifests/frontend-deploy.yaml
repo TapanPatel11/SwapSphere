@@ -16,6 +16,12 @@ spec:
       containers:
       - name: frontend
         image: swapsphere.azurecr.io/frontend:latest
+        env:
+        - name: BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-configmap
+              key: BACKEND_URL
         ports:
         - containerPort: 3000
       imagePullSecrets:

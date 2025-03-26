@@ -5,6 +5,7 @@ import '../css/RegisterPage.css'
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import backendURL from '../config';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -51,7 +52,7 @@ const RegisterPage = () => {
       
         try {
         
-          const response = await axios.post('https://swapsphere-backend.onrender.com/user/register', formDataToSend);
+          const response = await axios.post(`${backendURL}/user/register`, formDataToSend);
           console.log('User registered:', response); 
           if(response.data.email){
             navigate('/user/login');

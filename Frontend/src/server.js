@@ -1,14 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
 const specs = require('swagger');
 const swaggerUi = require('swagger-ui-express');
-
-mongoose.connect(process.env.DBURL, { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on('error', (error) => console.error(error));
-db.once('open', () => console.log('Connected to database'));
+const backendURL = process.env.BACKEND_URL;
 
 app.use(express.json());
 const userRoutes = require('./routes/users');
