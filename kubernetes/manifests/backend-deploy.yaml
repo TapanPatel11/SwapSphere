@@ -19,26 +19,10 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
-          - name: secrets-store
-            mountPath: /mnt/secrets  # Mount the volume where secrets will be available
+          - mountPath: /mnt/secrets  # Mount the volume where secrets will be available
+            name: secrets-store
             readOnly: true
-        env:
-          - name: MONGODB_URL
-            valueFrom:
-              secretKeyRef:
-                name: /mnt/secrets/swapsphere-mongodb-uri  # Path to the file
-          - name: AZURE_STORAGE_CONNECTION_STRING
-            valueFrom:
-              secretKeyRef:
-                name: /mnt/secrets/AZURE-STORAGE-CONNECTION-STRING  # Path to the file
-          - name: AZURE_CONTAINER_NAME
-            valueFrom:
-              secretKeyRef:
-                name: /mnt/secrets/CONTAINER-NAME  # Path to the file
-          - name: AZURE_STORAGE_URL
-            valueFrom:
-              secretKeyRef:
-                name: /mnt/secrets/AZURE-STORAGE-URL  # Path to the file
+
       imagePullSecrets:
         - name: acr-secret
       volumes:

@@ -2,25 +2,16 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const fs = require("fs"); // To read the secret from the file
 const specs = require("./swagger");
 const swaggerUi = require("swagger-ui-express");
 
-// Fetch the MongoDB connection string from the mounted secret file
-(async () => {
-  const mongoUriPath = "/mnt/secrets/swapsphere-mongodb-uri"; // Path to the secret
-  let mongoUri;
-  
-  try {
-    mongoUri = fs.readFileSync(mongoUriPath, 'utf8').trim(); // Read the secret file and trim any extra whitespace
-  } catch (error) {
-    console.error(`Error reading MongoDB URI from ${mongoUriPath}:`, error);
-    process.exit(1); // Exit if the secret cannot be read
-  }
 
+// Fetch the MongoDB connection string and connect to MongoDB
+(async () => {
+  const mongoUri = process.env.MONGODB_URL; 
   if (!mongoUri) {
     console.error("Error: MongoDB URI is missing!");
-    process.exit(1); // Exit if the secret is empty
+    process.exit(1); // Exit if the secret is not found
   }
 
   mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -30,9 +21,9 @@ const swaggerUi = require("swagger-ui-express");
       process.exit(1);
     });
 })();
-
 const cors = require("cors");
 
+// mongoose.connect(process.env.DBURL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to database"));
