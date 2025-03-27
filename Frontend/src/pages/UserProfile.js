@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/UserProfile.css";
+const backendURL = process.env.REACT_APP_backendURL;
+
 const UserProfile = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [profilePicture, setProfilePicture] = useState("");
@@ -19,7 +21,7 @@ const UserProfile = () => {
     };
     axios
       .get(
-        "https://swapsphere-backend.onrender.com/user/getUserDetailwithToken",
+        `${backendURL}/user/getUserDetailwithToken`,
         headersData
       )
       .then((response) => {
@@ -66,7 +68,7 @@ const UserProfile = () => {
 
     try {
       await axios.post(
-        "https://swapsphere-backend.onrender.com/user/setUserDetailwithToken",
+        `${backendURL}/user/setUserDetailwithToken`,
         formDataToSend
       );
     } catch (error) {

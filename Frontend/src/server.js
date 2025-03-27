@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const specs = require('swagger');
 const swaggerUi = require('swagger-ui-express');
-const backendURL = process.env.BACKEND_URL;
 
 app.use(express.json());
 const userRoutes = require('./routes/users');

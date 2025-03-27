@@ -13,6 +13,8 @@ import LandingPage from "./pages/LandingPage";
 import ForgotPasswordSetPage from "./pages/ForgotPasswordSetPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import UserProfilePage from "./pages/UserProfile";
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;  // Polyfill the global Buffer object
 function App() {
   return (
     <BrowserRouter>

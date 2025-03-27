@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const backendURL = process.env.REACT_APP_backendURL;
 
 const FAQ = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const FAQ = () => {
       token: localStorage.getItem("authToken"),
     };
     axios
-      .post("http://localhost:8080/user/checkTokens", authTokenData)
+      .post(`${backendURL}/user/checkTokens`, authTokenData)
       .then((response) => {
         const tokenstatus = response.data.status;
         console.log(tokenstatus);

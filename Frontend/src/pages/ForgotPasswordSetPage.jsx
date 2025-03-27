@@ -4,6 +4,7 @@ import ForgotPassword from '../images/landingPageImages/forgotpasword.gif'
 import '../css/ForgotPasswordPage.css';
 import axios from 'axios';
 import { useState } from 'react';
+const backendURL = process.env.REACT_APP_backendURL;
 
 
 
@@ -49,7 +50,7 @@ const ForgotPasswordSetPage = () => {
           password: password
         };
         try {
-          const response = await axios.post('https://swapsphere-backend.onrender.com/user/forgotpasswordset', passwordDataset );
+          const response = await axios.post(`${backendURL}/user/forgotpasswordset`, passwordDataset );
         if(response.data.status =="true"){
             window.location.href = "/user/login";
         }

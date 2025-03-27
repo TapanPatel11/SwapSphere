@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+const backendURL = process.env.REACT_APP_backendURL;
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Admin = () => {
       token: localStorage.getItem("authToken"),
     };
     axios
-      .post("http://localhost:8080/user/checkTokens", authTokenData)
+      .post(`${backendURL}/user/checkTokens`, authTokenData)
       .then((response) => {
         const tokenstatus = response.data.status;
         console.log(tokenstatus);
@@ -38,7 +39,7 @@ const Admin = () => {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:8080/admin/getAllReportedUsers")
+      .get(`${backendURL}/admin/getAllReportedUsers`)
       .then((response) => {
         setUsers(response.data);
       })
@@ -46,7 +47,7 @@ const Admin = () => {
         console.error(error);
       });
     axios
-      .get("http://localhost:8080/admin/getAllReportedProducts")
+      .get(`${backendURL}/admin/getAllReportedProducts`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -57,7 +58,7 @@ const Admin = () => {
 
   const handleDeleteProduct = (productId) => {
     axios
-      .delete(`http://localhost:8080/admin/deleteProduct/${productId}`)
+      .delete(`${backendURL}/admin/deleteProduct/${productId}`)
       .then((response) => {
         fetchData();
       })
@@ -68,7 +69,7 @@ const Admin = () => {
 
   const handleDeleteUser = (userId) => {
     axios
-      .delete(`http://localhost:8080/admin/deleteUser/${userId}`)
+      .delete(`${backendURL}/admin/deleteUser/${userId}`)
       .then((response) => {
         fetchData();
       })
@@ -84,7 +85,7 @@ const Admin = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/user/deleteTokens",
+        `${backendURL}/deleteTokens`,
         tokenrequest
       );
       if (response.data.status === "true") {

@@ -12,6 +12,7 @@ import "../css/HomePage.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+const backendURL = process.env.REACT_APP_backendURL;
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -110,13 +111,15 @@ export default function HomePage() {
       localStorage.getItem("authToken") === "" ||
       localStorage.getItem("role") !== "user"
     ) {
+
+      console.log("COULDNT FETCH TOKEN FROM LOCAL STORAGE");
       navigate("/user/login");
     }
     const authTokenData = {
       token: localStorage.getItem("authToken"),
     };
     axios
-      .post("http://localhost:8080/user/checkTokens", authTokenData)
+      .post(`${backendURL}/user/checkTokens`, authTokenData)
       .then((response) => {
         const tokenstatus = response.data.status;
         console.log(tokenstatus);
@@ -133,7 +136,7 @@ export default function HomePage() {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:8080/product/product/getAll")
+      .get(`${backendURL}/product/product/getAll`)
       .then((response) => {
         setProducts(response.data.products);
         setFilteredProducts(response.data.products);

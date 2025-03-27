@@ -1,6 +1,8 @@
+const backendURL = process.env.REACT_APP_backendURL;
+
 const getProductDetails = async (productID) => {
     try {
-      const response = await fetch(`http://localhost:8080/product/product/${productID}`);
+      const response = await fetch(`${backendURL}/product/product/${productID}`);
       const data = await response.json();
       if (data.error) {
         throw new Error('An error occurred while fetching the product.');
@@ -14,7 +16,7 @@ const getProductDetails = async (productID) => {
   
   const getCommentsForProduct = async (productID) => {
     try {
-      const response = await fetch(`http://localhost:8080/comment/getAll/${productID}`);
+      const response = await fetch(`${backendURL}/comment/getAll/${productID}`);
       const data = await response.json();
       if (data.success) {
         const sortedComments = data.comments.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -29,7 +31,7 @@ const getProductDetails = async (productID) => {
   
   const addComment = async (productID, useremail, commentText) => {
     try {
-      const response = await fetch('http://localhost:8080/comment/add', {
+      const response = await fetch(`${backendURL}/comment/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +55,7 @@ const getProductDetails = async (productID) => {
   
   const editComment = async (commentId, newCommentText) => {
     try {
-      const response = await fetch(`http://localhost:8080/comment/update/${commentId}`, {
+      const response = await fetch(`${backendURL}/comment/update/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ const getProductDetails = async (productID) => {
   
   const deleteComment = async (commentId) => {
     try {
-      const response = await fetch(`http://localhost:8080/comment/delete/${commentId}`, {
+      const response = await fetch(`${backendURL}/comment/delete/${commentId}`, {
         method: 'DELETE',
       });
       const data = await response.json();

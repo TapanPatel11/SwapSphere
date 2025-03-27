@@ -5,7 +5,7 @@ import '../css/RegisterPage.css'
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import backendURL from '../config';
+const backendURL = process.env.REACT_APP_backendURL;
 
 const RegisterPage = () => {
     const navigate = useNavigate();

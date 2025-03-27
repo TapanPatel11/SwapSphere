@@ -19,6 +19,7 @@ function CreateListing() {
   const [description, setDescription] = useState("");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
+  const backendURL = process.env.REACT_APP_backendURL;
 
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ function CreateListing() {
     const authTokenData = {
       token: localStorage.getItem('authToken'),
     }
-    axios.post('https://swapsphere-backend.onrender.com/user/checkTokens', authTokenData).then((response) => {
+    axios.post(`${backendURL}/user/checkTokens`, authTokenData).then((response) => {
       const tokenstatus = response.data.status;
       console.log(tokenstatus)
       if (tokenstatus != "true") {
@@ -85,13 +86,13 @@ function CreateListing() {
     formData.append("email", localStorage.getItem('email'));
 
     try {
-      const response = await fetch("https://swapsphere-backend.onrender.com/product/add", {
+      const response = await fetch(`${backendURL}/product/add`, {
         method: "POST",
         body: formData,
       });
 
       const result = await response.json();
-      console.log(result.message);
+      console.log(result.productName);
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred while adding the listing.");

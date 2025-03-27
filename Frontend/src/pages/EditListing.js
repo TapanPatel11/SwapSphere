@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+const backendURL = process.env.REACT_APP_backendURL;
 
 function EditListing() {
   const { productID: productID } = useParams();
@@ -66,7 +67,7 @@ function EditListing() {
       token: localStorage.getItem("authToken"),
     };
     axios
-      .post("http://localhost:8080/user/checkTokens", authTokenData)
+      .post(`${backendURL}/user/checkTokens`, authTokenData)
       .then((response) => {
         const tokenstatus = response.data.status;
         console.log(tokenstatus);
@@ -81,7 +82,7 @@ function EditListing() {
     const fetchProductDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/product/product/${productID}`
+          `${backendURL}/product/product/${productID}`
         );
         console.log(response);
         const data = await response.json();
@@ -125,7 +126,7 @@ function EditListing() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/product/product/update/${productID}`,
+        `${backendURL}/product/product/update/${productID}`,
         {
           method: "PUT",
           body: formData,

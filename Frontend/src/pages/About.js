@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const backendURL = process.env.REACT_APP_backendURL;
 
 export default function About() {
 
@@ -17,7 +18,7 @@ export default function About() {
     const authTokenData = {
       token: localStorage.getItem('authToken'),
     }
-    axios.post('https://swapsphere-backend.onrender.com/user/checkTokens', authTokenData).then((response) => {
+    axios.post(`${backendURL}/user/checkTokens`, authTokenData).then((response) => {
       const tokenstatus = response.data.status;
       console.log(tokenstatus)
       if (tokenstatus != "true") {

@@ -17,7 +17,7 @@ spec:
       - name: frontend
         image: swapsphere.azurecr.io/frontend:latest
         env:
-        - name: BACKEND_URL
+        - name: REACT_APP_backendURL
           valueFrom:
             configMapKeyRef:
               name: frontend-configmap

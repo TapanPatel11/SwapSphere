@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+const backendURL = process.env.REACT_APP_backendURL;
 
 const ContactUsPage = () => {
   const verifyToken = async (e) => {
@@ -14,7 +15,7 @@ const ContactUsPage = () => {
       token: localStorage.getItem('authToken'),
     };
     console.log(authToken)
-    const response = await axios.post('https://swapsphere-backend.onrender.com/checkTokens', authToken);
+    const response = await axios.post(`${backendURL}/checkTokens`, authToken);
     const tokenstatus = response.data.status;
     console.log(tokenstatus)
     if (tokenstatus == "true") {
@@ -32,7 +33,7 @@ const ContactUsPage = () => {
     const authTokenData = {
       token: localStorage.getItem('authToken'),
     }
-    axios.post('https://csci5709-grp-15-server.onrender.com/user/checkTokens', authTokenData).then((response) => {
+    axios.post(`${backendURL}/user/checkTokens`, authTokenData).then((response) => {
       const tokenstatus = response.data.status;
       console.log(tokenstatus)
       if (tokenstatus != "true") {

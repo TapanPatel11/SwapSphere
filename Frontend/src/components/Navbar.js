@@ -5,6 +5,7 @@ import { Transition } from "@headlessui/react";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+const backendURL = process.env.REACT_APP_backendURL;
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function Navbar() {
       },
     };
     axios
-      .get("https://swapsphere-backend.onrender.com/user/getUserDetailwithToken", headersData)
+      .get(`${backendURL}/user/getUserDetailwithToken`, headersData)
       .then((response) => {
         const userData = response.data;
         setProfilePicture(userData.userProfilePhoto);
@@ -43,7 +44,7 @@ export default function Navbar() {
     };
     try {
       console.log(tokenrequest.token)
-      const response = await axios.post('https://swapsphere-backend.onrender.com/user/deleteTokens', tokenrequest);
+      const response = await axios.post(`${backendURL}/user/deleteTokens`, tokenrequest);
       console.log(response);
 
       if (response.data.status === 'true') {

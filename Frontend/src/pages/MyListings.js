@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import Card from "../components/Card";
 import { useNavigate } from "react-router";
 import axios from "axios";
+const backendURL = process.env.REACT_APP_backendURL;
 
 const MyListings = () => {
   const [myListingItems, setMyListingItems] = useState([]);
@@ -22,7 +23,7 @@ const MyListings = () => {
 
   const handleDeleteListingClick = (productID) => {
     axios
-      .delete(`http://localhost:8080/product/product/delete/${productID}`)
+      .delete(`${backendURL}/product/product/delete/${productID}`)
       .then((response) => {
         fetchData();
       })
@@ -44,7 +45,7 @@ const MyListings = () => {
       token: localStorage.getItem("authToken"),
     };
     axios
-      .post("http://localhost:8080/user/checkTokens", authTokenData)
+      .post(`${backendURL}/user/checkTokens`, authTokenData)
       .then((response) => {
         const tokenstatus = response.data.status;
         console.log(tokenstatus);
@@ -67,7 +68,7 @@ const MyListings = () => {
   const fetchData = () => {
     const email = localStorage.getItem("email");
 
-    fetch("http://localhost:8080/product/products/getAll/" + email)
+    fetch(`${backendURL}/product/products/getAll/` + email)
       .then((response) => response.json())
       .then((data) => {
         setMyListingItems(data.products);
