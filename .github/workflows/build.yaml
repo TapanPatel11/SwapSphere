@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - 'feature/**'
+    paths-ignore:
+      - 'helm/**'
+
 jobs:
   build:
     name: 'Build and Push to ACR'
