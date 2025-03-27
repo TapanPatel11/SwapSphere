@@ -18,6 +18,7 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import useWishlist from "./useWishlist";
+const backendURL = process.env.REACT_APP_backendURL;
 
 const Product = () => {
   const navigate = useNavigate();
@@ -32,7 +33,6 @@ const Product = () => {
 
   const loggedInUser = localStorage.getItem("email");
   const [commentText, setCommentText] = useState("");
-  const backendURL = "http://localhost:8080"; //'https://swapsphere-backend.onrender.com'
   const [comments, setComments] = useState([]);
   const [showShareButtons, setShowShareButtons] = useState(false);
   useEffect(() => {
@@ -47,7 +47,7 @@ const Product = () => {
       token: localStorage.getItem("authToken"),
     };
     axios
-      .post("http://localhost:8080/user/checkTokens", authTokenData)
+      .post(`${backendURL}/user/checkTokens`, authTokenData)
       .then((response) => {
         const tokenstatus = response.data.status;
         console.log(tokenstatus);
@@ -84,7 +84,7 @@ const Product = () => {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:8080/product/product/" + productID)
+      .get(`${backendURL}/product/product/` + productID)
       .then((response) => {
         console.log("response", response.data);
         setProduct(response.data);
@@ -98,7 +98,7 @@ const Product = () => {
       });
 
     axios
-      .post("http://localhost:8080/user/get", {
+      .post(`${backendURL}/user/get`, {
         email: email,
       })
       .then((response) => {
@@ -256,7 +256,7 @@ const Product = () => {
   const handleReportUser = () => {
     console.log("userId", user._id);
     axios
-      .get(`http://localhost:8080/report/user/${user._id}`)
+      .get(`${backendURL}/report/user/${user._id}`)
       .then((response) => {
         toast.success("User reported successfully.");
         // Refresh the user details after reporting
@@ -279,7 +279,7 @@ const Product = () => {
   const handleReportProduct = () => {
     console.log("productId", product._id);
     axios
-      .get(`http://localhost:8080/report/product/${product._id}`)
+      .get(`${backendURL}/report/product/${product._id}`)
       .then((response) => {
         toast.success("Product reported successfully.");
         // Refresh the product details after reporting

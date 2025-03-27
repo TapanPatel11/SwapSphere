@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const useWishlist = () => {
   const [wishlistLoading, setWishlistLoading] = useState(false);
-  const backendURL  = 'https://swapsphere-backend.onrender.com'
+  const backendURL = process.env.REACT_APP_backendURL;
 
   const addToWishlist = async (product) => {
     try {

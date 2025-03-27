@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 
 const WishlistPage = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
-  const backendURL = 'https://swapsphere-backend.onrender.com'
+  const backendURL = process.env.REACT_APP_backendURL;
   useEffect(() => {
     const email = localStorage.getItem('email');
 

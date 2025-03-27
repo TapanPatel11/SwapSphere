@@ -4,6 +4,7 @@ import ForgotPassword from '../images/landingPageImages/forgotpasword.gif'
 import '../css/ForgotPasswordPage.css';
 import axios from 'axios'; 
 import { useState } from 'react';
+const backendURL = process.env.REACT_APP_backendURL;
 
 const ForgotPasswordPage = () => {
     const[error,setError] = useState('');
@@ -43,7 +44,7 @@ const ForgotPasswordPage = () => {
       number: randomNumber
     };
     try {
-      const response = await axios.post('https://swapsphere-backend.onrender.com/user/forgotpassword', passwordData );
+      const response = await axios.post(`${backendURL}/user/forgotpassword`, passwordData );
       console.log(response)
       if(response.data.status == "true"){
         window.location.href = "/user/forgotsetpassword"

@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import Card from "../components/Card";
 import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
+const backendURL = process.env.REACT_APP_backendURL;
 
 const UserListings = () => {
     const [myUserListingsItems, setMyUserListingsItems] = useState([]);
@@ -30,7 +31,7 @@ const UserListings = () => {
             token: localStorage.getItem("authToken"),
         };
         axios
-            .post("http://localhost:8080/user/checkTokens", authTokenData)
+            .post(`${backendURL}/user/checkTokens`, authTokenData)
             .then((response) => {
                 const tokenstatus = response.data.status;
                 console.log(tokenstatus);
@@ -45,7 +46,7 @@ const UserListings = () => {
 
 
 
-        fetch("http://localhost:8080/product/products/getAll/" + useremail)
+        fetch(`${backendURL}/product/products/getAll/` + useremail)
             .then((response) => response.json())
             .then((data) => {
                 setMyUserListingsItems(data.products);

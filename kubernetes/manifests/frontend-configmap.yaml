@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-configmap
+  namespace: swapsphere
+data:
+  BACKEND_URL: "http://backend-service.swapsphere.svc.cluster.local"

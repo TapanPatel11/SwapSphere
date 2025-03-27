@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const backendURL = process.env.REACT_APP_backendURL;
 const LoginPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -23,10 +24,11 @@ const LoginPage = () => {
         password : password,
       };
       try {
-        const response = await axios.post('https://swapsphere-backend.onrender.com/user/login', loginData);
+        const response = await axios.post(`${backendURL}/user/login`, loginData);
         console.log(response);
           const  token  = response.data.token;
           localStorage.setItem('authToken', token);
+          localStorage.setItem('role',response.data.role);
           if(response.data.status === 'true'){
 
             navigate("/home")

@@ -1,4 +1,5 @@
 // Import necessary modules
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -8,17 +9,16 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const product = require("../models/product");
 const user = require("../models/user");
 const wishlist = require("../models/wishlist");
-const { getSecretValue } = require('../server'); // Import getSecretValue from server.js
 module.exports = router;
 
 // Function to get secrets from Azure Key Vault
 async function getAzureSecrets() {
-  const storageConnectionString = await getSecretValue("AZURE-STORAGE-CONNECTION-STRING");
-  const containerName = await getSecretValue("AZURE-CONTAINER-NAME");
-  const storageURL = await getSecretValue("AZURE-STORAGE-URL");
+  const storageConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  const containerName = process.env.AZURE_CONTAINER_NAME;
+  const storageURL = process.env.AZURE_STORAGE_URL;
 
 
-  return { storageConnectionString, containerName };
+  return { storageConnectionString, containerName , storageURL};
 }
 
 // Configure multer to handle file uploads
@@ -29,7 +29,7 @@ router.get("/product/getAll", async (req, res) => {
   try {
     const products = await product.find({}, { _id: 0 }).exec();
     if (!products || !products.length) {
-      return res.status(404).json({ success: false, data: "No Products found!" });
+      return res.status(200).json({ success: true, data: "No Products found!" });
     }
     return res.status(200).json({
       message: "Products retrieved",
@@ -43,7 +43,7 @@ router.get("/product/getAll", async (req, res) => {
 
 router.post("/add", upload.array("fileUpload"), async (req, res) => {
   try {
-    const { storageConnectionString, containerName } = await getAzureSecrets(); // Fetch the secrets from Azure Key Vault
+    const { storageConnectionString, containerName , storageURL} = await getAzureSecrets(); // Fetch the secrets from Azure Key Vault
     const blobServiceClient = BlobServiceClient.fromConnectionString(storageConnectionString);
 
     // Create a container reference
@@ -150,7 +150,7 @@ router.put("/product/update/:productID", upload.array("fileUpload"), async (req,
   try {
     const productID = req.params.productID;
 
-    const { storageConnectionString, containerName } = await getAzureSecrets(); // Fetch the secrets from Azure Key Vault
+    const { storageConnectionString, containerName  , storageURL} = await getAzureSecrets(); // Fetch the secrets from Azure Key Vault
     const blobServiceClient = BlobServiceClient.fromConnectionString(storageConnectionString);
 
     // Create a container reference
