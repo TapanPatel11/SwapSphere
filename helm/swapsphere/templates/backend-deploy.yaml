@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: swapsphere
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      serviceAccountName: "workload-identity-sa"
+      containers:
+      - name: backend
+        image: swapsphere.azurecr.io/backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MONGODB_URL
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: mongodburl
+
+        - name: AZURE_STORAGE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: azconnectionstring
+
+        - name: AZURE_CONTAINER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: containername
+
+        - name: AZURE_STORAGE_URL
+          valueFrom:
+            secretKeyRef:
+              name: backendsecrets
+              key: azstorageurl
+        volumeMounts:
+            - mountPath: /mnt/secrets-store 
+              name: secrets-store
+              readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-keyvault-secrets"
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: swapsphere
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 31810
+  type: LoadBalancer
