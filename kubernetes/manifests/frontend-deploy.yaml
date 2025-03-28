@@ -22,6 +22,8 @@ spec:
             configMapKeyRef:
               name: frontend-configmap
               key: BACKEND_URL
+        - name: PUBLIC_URL
+          value: "/"
         ports:
         - containerPort: 3000
       imagePullSecrets:
