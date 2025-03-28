@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and Push Frontend
         run: |
-          docker build --build-arg REACT_APP_backendURL=http://backend-service.swapsphere.svc.cluster.local -t frontend ./Frontend/
+          docker build --build-arg REACT_APP_backendURL=http://backend-service.swapsphere.svc.cluster.local/api -t frontend ./Frontend/
           docker tag frontend ${{ secrets.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}
           docker tag frontend ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}

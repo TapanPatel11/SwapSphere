@@ -47,7 +47,7 @@ app.use("/report", reportRoutes);
 app.use("/admin", adminRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-const port = 8080;
+const port = 3500;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

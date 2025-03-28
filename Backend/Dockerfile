@@ -13,8 +13,8 @@ RUN npm install
 # Step 5: Copy the rest of the application code into the container
 COPY . .
 
-# Step 6: Expose the port your application will run on
-EXPOSE 8080
+# # Step 6: Expose the port your application will run on
+# EXPOSE 8080
 
 # Step 7: Define ENTRYPOINT and CMD
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["node", "server.js"]
