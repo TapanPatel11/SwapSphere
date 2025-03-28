@@ -30,6 +30,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: swapsphere
+    service.beta.kubernetes.io/azure-pip-name: swapspherePIP
+    service.beta.kubernetes.io/azure-dns-label-name: swapsphere.eastus.cloudapp.azure.com
   name: frontend-service
   namespace: swapsphere
 spec:
