@@ -24,6 +24,7 @@ const LoginPage = () => {
         password : password,
       };
       try {
+        console.log("Backend URL:", backendURL);
         const response = await axios.post(`${backendURL}/user/login`, loginData);
         console.log(response);
           const  token  = response.data.token;

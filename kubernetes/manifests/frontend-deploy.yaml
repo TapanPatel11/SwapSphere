@@ -22,10 +22,8 @@ spec:
             configMapKeyRef:
               name: frontend-configmap
               key: BACKEND_URL
-        - name: PUBLIC_URL
-          value: "/"
         ports:
-        - containerPort: 3000
+        - containerPort: 80
       imagePullSecrets:
       - name: acr-secret
 ---
@@ -44,5 +42,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 3000
+    targetPort: 80
   type: ClusterIP
