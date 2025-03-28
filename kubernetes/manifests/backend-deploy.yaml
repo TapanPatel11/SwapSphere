@@ -67,6 +67,6 @@ spec:
     app: backend
   ports:
   - protocol: TCP
-    port: 3500
+    port: 80
     targetPort: 3500
   type: ClusterIP
