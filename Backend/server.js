@@ -23,7 +23,6 @@ const swaggerUi = require("swagger-ui-express");
 })();
 const cors = require("cors");
 
-// mongoose.connect(process.env.DBURL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to database"));
@@ -39,15 +38,15 @@ const commentRoutes = require("./routes/comment");
 const reportRoutes = require("./routes/report");
 const adminRoutes = require("./routes/admin");
 
-app.use("/wishlist", wishlistRoutes);
-app.use("/user", userRoutes);
-app.use("/product", productRoutes);
-app.use("/comment", commentRoutes);
-app.use("/report", reportRoutes);
-app.use("/admin", adminRoutes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/comment", commentRoutes);
+app.use("/api/report", reportRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-const port = 8080;
+const port = 3500;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
