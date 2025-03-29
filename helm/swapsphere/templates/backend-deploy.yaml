@@ -18,7 +18,7 @@ spec:
       - name: backend
         image: swapsphere.azurecr.io/backend:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 3500
         env:
         - name: MONGODB_URL
           valueFrom:
@@ -68,5 +68,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 3500
   type: ClusterIP

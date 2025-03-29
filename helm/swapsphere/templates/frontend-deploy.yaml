@@ -23,17 +23,17 @@ spec:
               name: frontend-configmap
               key: BACKEND_URL
         ports:
-        - containerPort: 3000
+        - containerPort: 80
       imagePullSecrets:
       - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-resource-group: swapsphere
-    service.beta.kubernetes.io/azure-pip-name: swapspherePIP
-    service.beta.kubernetes.io/azure-dns-label-name: swapsphere.eastus.cloudapp.azure.com
+  # annotations:
+  #   service.beta.kubernetes.io/azure-load-balancer-resource-group: swapsphere
+  #   service.beta.kubernetes.io/azure-pip-name: swapspherepip
+  #   service.beta.kubernetes.io/azure-dns-label-name: swapsphere
   name: frontend-service
   namespace: swapsphere
 spec:
@@ -42,5 +42,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 3000
-  type: LoadBalancer
+    targetPort: 80
+  type: ClusterIP
