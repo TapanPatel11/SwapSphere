@@ -6,11 +6,12 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: swapsphere-ingress.southindia.cloudapp.azure.com
+    http:
       paths:
       - path: /
         pathType: Prefix
@@ -19,10 +20,10 @@ spec:
             name: frontend-service
             port:
               number: 80
-      - path: /api(/|$)(.*)
-        pathType: ImplementationSpecific
+      - path: /api
+        pathType: Prefix
         backend:
           service:
             name: backend-service
             port:
-              number: 3500
+              number: 80

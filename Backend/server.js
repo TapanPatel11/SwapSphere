@@ -23,7 +23,6 @@ const swaggerUi = require("swagger-ui-express");
 })();
 const cors = require("cors");
 
-// mongoose.connect(process.env.DBURL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to database"));
