@@ -9,10 +9,11 @@ on:
       - 'helm/**'
 
 jobs:
-  build:
-    name: 'Build and Push to ACR'
+  login:
+    name: 'Login to ACR'
     runs-on: ubuntu-latest
-
+    outputs:
+      registry: ${{ secrets.ACR_LOGIN_SERVER }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -20,9 +21,17 @@ jobs:
       - name: Login to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-          login-server: ${{ secrets.ACR_LOGIN_SERVER }}  
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
+
+  frontend:
+    name: 'Build and Push Frontend'
+    runs-on: ubuntu-latest
+    needs: login
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Build and Push Frontend
         run: |
@@ -31,6 +40,14 @@ jobs:
           docker tag frontend ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:${{ github.sha }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
+
+  backend:
+    name: 'Build and Push Backend'
+    runs-on: ubuntu-latest
+    needs: login
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Build and Push Backend
         run: |
